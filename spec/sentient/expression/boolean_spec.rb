@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Sentient::Boolean do
+RSpec.describe Sentient::Expression::Boolean do
   it "associates an auto-incrementing number with the boolean" do
     expect(described_class.new).to eq("1")
     expect(described_class.new).to eq("2")

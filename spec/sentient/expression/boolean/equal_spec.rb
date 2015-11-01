@@ -1,10 +1,10 @@
 require "spec_helper"
 
-RSpec.describe Sentient::Equal do
+RSpec.describe Sentient::Expression::Boolean::Equal do
   it "produces a DIMACS expression that is logically equivalent to 'xnor'" do
     expression = described_class.new(
-      Sentient::Boolean.new,
-      Sentient::Boolean.new
+      Sentient::Expression::Boolean.new,
+      Sentient::Expression::Boolean.new
     )
 
     expect(expression.to_dimacs).to eq [
@@ -18,8 +18,8 @@ RSpec.describe Sentient::Equal do
 
   it "prepends the DIMACS for subexpressions" do
     expression = described_class.new(
-      Sentient::True.new,
-      Sentient::False.new
+      Sentient::Expression::Boolean::True.new,
+      Sentient::Expression::Boolean::False.new
     )
 
     expect(expression.to_dimacs).to eq [

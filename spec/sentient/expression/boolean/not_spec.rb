@@ -1,9 +1,9 @@
 require "spec_helper"
 
-RSpec.describe Sentient::Not do
+RSpec.describe Sentient::Expression::Boolean::Not do
   it "produces a DIMACS expression that is logically equivalent to 'not'" do
     expression = described_class.new(
-      Sentient::Boolean.new
+      Sentient::Expression::Boolean.new
     )
 
     expect(expression.to_dimacs).to eq [
@@ -15,7 +15,7 @@ RSpec.describe Sentient::Not do
 
   it "prepends the DIMACS for subexpressions" do
     expression = described_class.new(
-      Sentient::True.new
+      Sentient::Expression::Boolean::True.new
     )
 
     expect(expression.to_dimacs).to eq [

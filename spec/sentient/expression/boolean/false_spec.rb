@@ -1,6 +1,6 @@
 require "spec_helper"
 
-RSpec.describe Sentient::False do
+RSpec.describe Sentient::Expression::Boolean::False do
   it "enforces that the boolean is false" do
     expression = described_class.new
 

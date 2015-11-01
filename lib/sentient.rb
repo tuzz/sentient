@@ -1,10 +1,10 @@
 module Sentient
 end
 
-require "sentient/boolean"
-require "sentient/true"
-require "sentient/false"
-require "sentient/not"
-require "sentient/and"
-require "sentient/or"
-require "sentient/equal"
+require "sentient/expression/boolean"
+require "sentient/expression/boolean/true"
+require "sentient/expression/boolean/false"
+require "sentient/expression/boolean/not"
+require "sentient/expression/boolean/and"
+require "sentient/expression/boolean/or"
+require "sentient/expression/boolean/equal"
