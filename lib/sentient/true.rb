@@ -1,9 +1,11 @@
-class Sentient::True
-  def to_dimacs
-    [[boolean]]
-  end
+module Sentient
+  class True
+    def to_dimacs
+      [[boolean]]
+    end
 
-  def boolean
-    @boolean ||= Sentient::Boolean.new
+    def boolean
+      @boolean ||= Boolean.new
+    end
   end
 end

@@ -1,9 +1,11 @@
-class Sentient::False
-  def to_dimacs
-    [[boolean.negate]]
-  end
+module Sentient
+  class False
+    def to_dimacs
+      [[boolean.negate]]
+    end
 
-  def boolean
-    @boolean ||= Sentient::Boolean.new
+    def boolean
+      @boolean ||= Boolean.new
+    end
   end
 end
