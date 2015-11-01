@@ -4,6 +4,6 @@ class Sentient::True
   end
 
   def boolean
-    @@boolean ||= Sentient::Boolean.new
+    @boolean ||= Sentient::Boolean.new
   end
 end
