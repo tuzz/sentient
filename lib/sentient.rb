@@ -8,3 +8,5 @@ require "sentient/expression/boolean/not"
 require "sentient/expression/boolean/and"
 require "sentient/expression/boolean/or"
 require "sentient/expression/boolean/equal"
+
+require "sentient/expression/program"
