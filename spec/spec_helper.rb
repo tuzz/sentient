@@ -6,4 +6,8 @@ RSpec.configure do |config|
   config.color = true
   config.formatter = :doc
   config.disable_monkey_patching!
+
+  config.before do
+    Sentient::Boolean.reset
+  end
 end
