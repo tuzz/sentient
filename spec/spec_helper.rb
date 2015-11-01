@@ -1,4 +1,5 @@
 require "rspec"
+require "pry"
 require "sentient"
 
 RSpec.configure do |config|
