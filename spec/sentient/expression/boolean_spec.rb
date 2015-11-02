@@ -27,4 +27,12 @@ RSpec.describe Sentient::Expression::Boolean do
     expect(subject.to_dimacs).to eq []
     expect(subject.boolean).to eq(subject)
   end
+
+  it "provides a mechanism to get the number of instantiated booleans" do
+    described_class.new
+    described_class.new
+    described_class.new
+
+    expect(described_class.count).to eq(3)
+  end
 end

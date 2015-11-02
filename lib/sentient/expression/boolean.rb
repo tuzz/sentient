@@ -5,6 +5,10 @@ module Sentient
         @@next_number = 0
       end
 
+      def self.count
+        @@next_number
+      end
+
       def initialize(number = nil)
         self.number = number || next_number
       end
