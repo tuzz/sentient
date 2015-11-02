@@ -35,4 +35,9 @@ RSpec.describe Sentient::Expression::Boolean do
 
     expect(described_class.count).to eq(3)
   end
+
+  it "knows whether it is a positive boolean" do
+    expect(subject).to be_positive
+    expect(subject.negate).to_not be_positive
+  end
 end

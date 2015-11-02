@@ -25,6 +25,10 @@ module Sentient
         self.class.new(-number)
       end
 
+      def positive?
+        number > 0
+      end
+
       def to_dimacs
         []
       end
