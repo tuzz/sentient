@@ -10,3 +10,5 @@ require "sentient/expression/boolean/or"
 require "sentient/expression/boolean/equal"
 
 require "sentient/expression/program"
+
+require "sentient/solver/result"
