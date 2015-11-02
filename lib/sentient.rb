@@ -15,3 +15,5 @@ require "sentient/expression/program"
 
 require "sentient/solver/lingeling"
 require "sentient/solver/result"
+
+require "sentient/machine"
