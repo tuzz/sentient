@@ -6,12 +6,15 @@ module Sentient
       end
 
       def to_dimacs
-        expression.to_dimacs + [
-          [expression.boolean]
-        ]
+        @dimacs ||= expression.to_dimacs + [[expression.boolean]]
       end
 
-      private
+      def header
+        clause_count = to_dimacs.count
+        literal_count = Boolean.count
+
+        "p cnf #{literal_count} #{clause_count}\n"
+      end
 
       attr_accessor :expression
     end

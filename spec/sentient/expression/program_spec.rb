@@ -19,4 +19,15 @@ RSpec.describe Sentient::Expression::Program do
       ["1"],
     ]
   end
+
+  it "builds the DIMACS header" do
+    expression = described_class.new(
+      Sentient::Expression::Boolean::And.new(
+        Sentient::Expression::Boolean::True.new,
+        Sentient::Expression::Boolean::False.new
+      )
+    )
+
+    expect(expression.header).to eq("p cnf 3 6\n")
+  end
 end
