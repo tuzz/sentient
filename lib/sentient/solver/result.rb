@@ -16,7 +16,7 @@ module Sentient
       end
 
       def fetch(boolean)
-        hash[boolean]
+        hash[boolean.to_s]
       end
 
       private

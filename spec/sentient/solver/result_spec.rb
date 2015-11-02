@@ -13,6 +13,10 @@ RSpec.describe Sentient::Solver::Result do
       expect(subject.fetch("2")).to eq(false)
       expect(subject.fetch("3")).to eq(true)
     end
+
+    it "turns the argument into a string before fetching" do
+      expect(subject.fetch(1)).to eq(true)
+    end
   end
 
   context "when the program is not satisfiable" do
