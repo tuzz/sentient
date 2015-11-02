@@ -12,6 +12,8 @@ require "sentient/expression/boolean/or"
 require "sentient/expression/boolean/xor"
 require "sentient/expression/boolean/equal"
 
+require "sentient/expression/integer"
+
 require "sentient/expression/program"
 
 require "sentient/solver/lingeling"
