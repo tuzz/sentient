@@ -48,4 +48,48 @@ RSpec.describe Sentient::Machine do
     result = subject.run(program)
     expect(result).to_not be_satisfiable
   end
+
+  describe "google doodle for George Boole" do
+    let(:x) { Sentient::Expression::Boolean.new }
+    let(:y) { Sentient::Expression::Boolean.new }
+
+    let(:g) { Sentient::Expression::Boolean::And.new(x, y) }
+    let(:o1) { Sentient::Expression::Boolean::Xor.new(x, y) }
+    let(:o2) { Sentient::Expression::Boolean::Or.new(x, y) }
+    let(:l) { Sentient::Expression::Boolean::Not.new(y) }
+    let(:e) { Sentient::Expression::Boolean::Not.new(x) }
+
+    it "is not possible to light up every character in google" do
+      program = Sentient::Expression::Program.new(
+        Sentient::Expression::Boolean::And.new(
+          g,
+          Sentient::Expression::Boolean::And.new(
+            o1,
+            Sentient::Expression::Boolean::And.new(
+              o2,
+              Sentient::Expression::Boolean::And.new(
+                l,
+                e
+              )
+            )
+          )
+        )
+      )
+
+      result = subject.run(program)
+      expect(result).to_not be_satisfiable
+    end
+
+    it "is possible to light up the two 'o' letters at the same time" do
+      program = Sentient::Expression::Program.new(
+        Sentient::Expression::Boolean::And.new(o1, o2)
+      )
+
+      result = subject.run(program)
+      expect(result).to be_satisfiable
+
+      expect(result.fetch(x)).to eq(true)
+      expect(result.fetch(y)).to eq(false)
+    end
+  end
 end
