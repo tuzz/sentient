@@ -1,16 +1,10 @@
 module Sentient
   module Expression
     class Boolean
-      def self.reset
-        @@next_number = 0
-      end
-
-      def self.count
-        @@next_number
-      end
-
-      def initialize(number = nil)
-        self.number = number || next_number
+      def initialize(positive = true, identifier = object_id)
+        self.positive = positive
+        self.identifier = identifier
+        number
       end
 
       def to_s
@@ -22,11 +16,11 @@ module Sentient
       end
 
       def negate
-        self.class.new(-number)
+        self.class.new(!positive?, identifier)
       end
 
       def positive?
-        number > 0
+        positive
       end
 
       def to_dimacs
@@ -39,13 +33,12 @@ module Sentient
 
       private
 
-      def next_number
-        @@next_number += 1
+      def number
+        number = Register.fetch(identifier)
+        positive? ? number : -number
       end
 
-      attr_accessor :number
+      attr_accessor :identifier, :positive
     end
   end
 end
-
-Sentient::Expression::Boolean.reset

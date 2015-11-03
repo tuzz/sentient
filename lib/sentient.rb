@@ -3,6 +3,8 @@ end
 
 require "open3"
 
+require "sentient/register"
+
 require "sentient/expression/boolean"
 require "sentient/expression/boolean/true"
 require "sentient/expression/boolean/false"

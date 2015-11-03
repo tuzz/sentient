@@ -28,16 +28,19 @@ RSpec.describe Sentient::Expression::Boolean do
     expect(subject.boolean).to eq(subject)
   end
 
-  it "provides a mechanism to get the number of instantiated booleans" do
-    described_class.new
-    described_class.new
-    described_class.new
-
-    expect(described_class.count).to eq(3)
-  end
-
   it "knows whether it is a positive boolean" do
     expect(subject).to be_positive
     expect(subject.negate).to_not be_positive
+  end
+
+  it "allocates new numbers for existing booleans when the register is reset" do
+    first = described_class.new
+    second = described_class.new
+
+    expect(Sentient::Register.count).to eq(2)
+    Sentient::Register.reset
+
+    expect(second).to eq("1")
+    expect(first).to eq("2")
   end
 end

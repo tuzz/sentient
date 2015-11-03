@@ -8,6 +8,6 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 
   config.before do
-    Sentient::Expression::Boolean.reset
+    Sentient::Register.reset
   end
 end

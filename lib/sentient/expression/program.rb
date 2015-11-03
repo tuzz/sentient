@@ -11,7 +11,7 @@ module Sentient
 
       def header
         clause_count = to_dimacs.count
-        literal_count = Boolean.count
+        literal_count = Register.count
 
         "p cnf #{literal_count} #{clause_count}\n"
       end
