@@ -19,6 +19,7 @@ require "sentient/expression/integer"
 require "sentient/expression/integer/literal"
 require "sentient/expression/integer/pad"
 require "sentient/expression/integer/add"
+require "sentient/expression/integer/equal"
 
 require "sentient/expression/program"
 
