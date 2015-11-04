@@ -4,7 +4,11 @@ module Sentient
       attr_reader :booleans
 
       def initialize(bits)
-        self.booleans = bits.times.map { Boolean.new }
+        if bits.respond_to?(:times)
+          self.booleans = bits.times.map { Boolean.new }
+        else
+          self.booleans = bits
+        end
       end
 
       def to_s

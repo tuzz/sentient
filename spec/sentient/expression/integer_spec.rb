@@ -15,4 +15,14 @@ RSpec.describe Sentient::Expression::Integer do
   it "provides access to its booleans" do
     expect(subject.booleans).to eq ["1", "2", "3"]
   end
+
+  it "can be instantiated with provided booleans" do
+    booleans = [
+      Sentient::Expression::Boolean.new,
+      Sentient::Expression::Boolean.new
+    ]
+    subject = described_class.new(booleans)
+
+    expect(subject.booleans).to eq(booleans)
+  end
 end
