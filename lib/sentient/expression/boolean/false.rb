@@ -7,7 +7,7 @@ module Sentient
         end
 
         def boolean
-          @boolean ||= Boolean.new
+          @@boolean ||= Boolean.new
         end
       end
     end
