@@ -13,6 +13,7 @@ require "sentient/expression/boolean/and"
 require "sentient/expression/boolean/or"
 require "sentient/expression/boolean/xor"
 require "sentient/expression/boolean/equal"
+require "sentient/expression/boolean/identity"
 
 require "sentient/expression/integer"
 require "sentient/expression/integer/literal"
