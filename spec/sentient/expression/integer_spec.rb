@@ -25,4 +25,21 @@ RSpec.describe Sentient::Expression::Integer do
 
     expect(subject.booleans).to eq(booleans)
   end
+
+  it "can turn an integer back into ruby given the result" do
+    result = Sentient::Solver::Result.new([-1, -2, -3])
+    expect(subject.to_ruby(result)).to eq(0)
+
+    result = Sentient::Solver::Result.new([1, -2, -3])
+    expect(subject.to_ruby(result)).to eq(1)
+
+    result = Sentient::Solver::Result.new([1, 2, -3])
+    expect(subject.to_ruby(result)).to eq(3)
+
+    result = Sentient::Solver::Result.new([1, 2, 3])
+    expect(subject.to_ruby(result)).to eq(-1)
+
+    result = Sentient::Solver::Result.new([1, -2, 3])
+    expect(subject.to_ruby(result)).to eq(-3)
+  end
 end

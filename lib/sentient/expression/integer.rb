@@ -27,6 +27,20 @@ module Sentient
         self
       end
 
+      def to_ruby(result)
+        array = booleans.map { |b| result.fetch(b) }
+        negative = array.pop
+        binary = array.map { |e| e ? "1" : "0" }.join.reverse
+        number = binary.to_i(2)
+
+        if negative
+          max = array.count ** 2
+          number - max
+        else
+          number
+        end
+      end
+
       private
 
       attr_writer :booleans
