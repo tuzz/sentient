@@ -120,17 +120,9 @@ RSpec.describe Sentient::Machine do
     b_result = b.integer.booleans.map { |x| result.fetch(x) }
     c_result = c.integer.booleans.map { |x| result.fetch(x) }
 
-    expect(a_result).to eq [
-      true, true, true, true, true, true, true, false
-    ] # 1    1     1      1     1    1     1     0        = 127
-
-    expect(b_result).to eq [
-      false, true, false, false, true, true, true, true
-    ] # 0     1       0     0     1     1      1     1    = -14
-
-    expect(c_result).to eq [
-      true, true, false, false, true, true, true, true
-    ]  # 1    1     0      0     1     1     1     1      = -13
+    expect(a.integer.to_ruby(result)).to eq(127)
+    expect(b.integer.to_ruby(result)).to eq(-14)
+    expect(c.integer.to_ruby(result)).to eq(-13)
   end
 
   it "can find three numbers that add up to 100 and 5 numbers that add up to 1000" do
@@ -182,24 +174,10 @@ RSpec.describe Sentient::Machine do
     d_result = d.integer.booleans.map { |x| result.fetch(x) }
     e_result = e.integer.booleans.map { |x| result.fetch(x) }
 
-    expect(a_result).to eq [
-      true, true, true, false, false, true, true, true, true, false
-    ] # 1     1     1     0     0      1      1     1    1     0  = 487
-
-    expect(b_result).to eq [
-      false, true, true, true, true, true, false, true, true, false
-    ] # 0      1    1     1     1     1     0      1     1     0  = 446
-
-    expect(c_result).to eq [
-      false, true, true, true, true, true, true, true, true, true
-    ] # 0      1     1    1      1    1     1      1    1     1   = -2
-
-    expect(d_result).to eq [
-      false, true, true, false, false, false, true, true, true, false
-    ] # 0      1     1     0      0     0      1     1     1     0 = 454
-
-    expect(e_result).to eq [
-      true, true, true, true, true, true, true, false, false, true
-    ] # 1    1     1     1      1     1    1      0     0       1  = -385
+    expect(a.integer.to_ruby(result)).to eq(487)
+    expect(b.integer.to_ruby(result)).to eq(446)
+    expect(c.integer.to_ruby(result)).to eq(-2)
+    expect(d.integer.to_ruby(result)).to eq(454)
+    expect(e.integer.to_ruby(result)).to eq(-385)
   end
 end
