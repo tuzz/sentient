@@ -96,5 +96,16 @@ RSpec.describe Sentient::Expression::Integer::Equal do
 
     result = machine.run(program)
     expect(result).to_not be_satisfiable
+
+
+    program = Sentient::Expression::Program.new(
+      expression = described_class.new(
+        a = Sentient::Expression::Integer::Literal.new(2),
+        b = Sentient::Expression::Integer::Literal.new(14)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to_not be_satisfiable
   end
 end

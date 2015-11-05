@@ -8,7 +8,7 @@ module Sentient
         end
 
         def to_dimacs
-          left.to_dimacs + right.to_dimacs + expression.to_dimacs
+          results.map(&:to_dimacs).flatten(1)
         end
 
         def boolean
@@ -18,6 +18,10 @@ module Sentient
         private
 
         def expression
+          results.last
+        end
+
+        def results
           @expression ||= (
             left, right = pad
             pairs = left.integer.booleans.zip(right.integer.booleans)
@@ -26,9 +30,11 @@ module Sentient
               Boolean::Equal.new(a, b)
             end
 
-            expressions.reduce(Boolean::True.new) do |accumulator, expression|
+            expression = expressions.reduce(Boolean::True.new) do |accumulator, expression|
               Boolean::And.new(accumulator, expression)
             end
+
+            [left, right, expression]
           )
         end
 
