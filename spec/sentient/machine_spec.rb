@@ -92,4 +92,114 @@ RSpec.describe Sentient::Machine do
       expect(result.fetch(y)).to eq(false)
     end
   end
+
+  it "can find three numbers that add up to 100" do
+    a = Sentient::Expression::Integer.new(8)
+    b = Sentient::Expression::Integer.new(8)
+    c = Sentient::Expression::Integer.new(8)
+
+    added = Sentient::Expression::Integer::Add.new(
+      a,
+      Sentient::Expression::Integer::Add.new(
+        b,
+        c
+      )
+    )
+
+    equal_100 = Sentient::Expression::Integer::Equal.new(
+      added,
+      Sentient::Expression::Integer::Literal.new(100)
+    )
+
+    program = Sentient::Expression::Program.new(equal_100)
+    result = subject.run(program)
+
+    expect(result).to be_satisfiable
+
+    a_result = a.integer.booleans.map { |x| result.fetch(x) }
+    b_result = b.integer.booleans.map { |x| result.fetch(x) }
+    c_result = c.integer.booleans.map { |x| result.fetch(x) }
+
+    expect(a_result).to eq [
+      true, true, true, true, true, true, true, false
+    ] # 1    1     1      1     1    1     1     0        = 127
+
+    expect(b_result).to eq [
+      false, true, false, false, true, true, true, true
+    ] # 0     1       0     0     1     1      1     1    = -14
+
+    expect(c_result).to eq [
+      true, true, false, false, true, true, true, true
+    ]  # 1    1     0      0     1     1     1     1      = -13
+  end
+
+  it "can find three numbers that add up to 100 and 5 numbers that add up to 1000" do
+    a = Sentient::Expression::Integer.new(10)
+    b = Sentient::Expression::Integer.new(10)
+    c = Sentient::Expression::Integer.new(10)
+    d = Sentient::Expression::Integer.new(10)
+    e = Sentient::Expression::Integer.new(10)
+
+    add_ace = Sentient::Expression::Integer::Add.new(
+      a,
+      Sentient::Expression::Integer::Add.new(
+        c,
+        e
+      )
+    )
+
+    add_all = Sentient::Expression::Integer::Add.new(
+      add_ace,
+      Sentient::Expression::Integer::Add.new(
+        b,
+        d
+      )
+    )
+
+    equal_100 = Sentient::Expression::Integer::Equal.new(
+      add_ace,
+      Sentient::Expression::Integer::Literal.new(100)
+    )
+
+    equal_1000 = Sentient::Expression::Integer::Equal.new(
+      add_all,
+      Sentient::Expression::Integer::Literal.new(1000)
+    )
+
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Boolean::And.new(
+        equal_100,
+        equal_1000
+      )
+    )
+
+    result = subject.run(program)
+    expect(result).to be_satisfiable
+
+    a_result = a.integer.booleans.map { |x| result.fetch(x) }
+    b_result = b.integer.booleans.map { |x| result.fetch(x) }
+    c_result = c.integer.booleans.map { |x| result.fetch(x) }
+    d_result = d.integer.booleans.map { |x| result.fetch(x) }
+    e_result = e.integer.booleans.map { |x| result.fetch(x) }
+
+    expect(a_result).to eq [
+      true, true, true, false, false, true, true, true, true, false
+    ] # 1     1     1     0     0      1      1     1    1     0  = 487
+
+    expect(b_result).to eq [
+      false, true, true, true, true, true, false, true, true, false
+    ] # 0      1    1     1     1     1     0      1     1     0  = 446
+
+    expect(c_result).to eq [
+      false, true, true, true, true, true, true, true, true, true
+    ] # 0      1     1    1      1    1     1      1    1     1   = -2
+
+    expect(d_result).to eq [
+      false, true, true, false, false, false, true, true, true, false
+    ] # 0      1     1     0      0     0      1     1     1     0 = 454
+
+    expect(e_result).to eq [
+      true, true, true, true, true, true, true, false, false, true
+    ] # 1    1     1     1      1     1    1      0     0       1  = -385
+  end
 end
