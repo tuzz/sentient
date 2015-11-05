@@ -31,6 +31,10 @@ module Sentient
         self
       end
 
+      def to_ruby(result)
+        result.fetch(boolean)
+      end
+
       private
 
       def number

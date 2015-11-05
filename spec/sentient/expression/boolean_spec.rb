@@ -43,4 +43,12 @@ RSpec.describe Sentient::Expression::Boolean do
     expect(second).to eq("1")
     expect(first).to eq("2")
   end
+
+  it "can turn a boolean back into ruby given the result" do
+    result = Sentient::Solver::Result.new([1])
+    expect(subject.to_ruby(result)).to eq(true)
+
+    result = Sentient::Solver::Result.new([-1])
+    expect(subject.to_ruby(result)).to eq(false)
+  end
 end
