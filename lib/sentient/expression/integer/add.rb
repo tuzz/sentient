@@ -9,6 +9,8 @@ module Sentient
 
         def to_dimacs
           @to_dimacs ||= (
+            left, right = pad
+
             dimacs = left.to_dimacs
             dimacs += right.to_dimacs
             dimacs += expressions.map(&:to_dimacs).flatten(1)
@@ -42,21 +44,24 @@ module Sentient
               sum
             end
 
+            carry = negate_if_opposite_signs(carry, left, right)
             expressions + [carry]
           )
         end
 
         def pad
-          l = left.integer.booleans.count
-          r = right.integer.booleans.count
+          @pad ||= (
+            l = left.integer.booleans.count
+            r = right.integer.booleans.count
 
-          if l < r
-            [Pad.new(left, r), right]
-          elsif r < l
-            [left, Pad.new(right, l)]
-          else
-            [left, right]
-          end
+            if l < r
+              [Pad.new(left, r), right]
+            elsif r < l
+              [left, Pad.new(right, l)]
+            else
+              [left, right]
+            end
+          )
         end
 
         def adder_sum(a, b, c_in)
@@ -82,6 +87,22 @@ module Sentient
                 b
               )
             )
+          )
+        end
+
+        def negate_if_opposite_signs(carry, left, right)
+          left_sign = left.integer.booleans.last
+          right_sign = right.integer.booleans.last
+
+          equal_signs = Boolean::Equal.new(
+            left_sign,
+            right_sign
+          )
+
+          Boolean::If.new(
+            equal_signs,
+            carry,
+            Boolean::Not.new(carry)
           )
         end
 

@@ -1,7 +1,10 @@
 require "spec_helper"
 
 RSpec.describe Sentient::Expression::Integer::Add do
-  it "" do
+  let(:solver) { Sentient::Solver::Lingeling.new("lingeling") }
+  let(:machine) { Sentient::Machine.new(solver) }
+
+  it "compiles to DIMACS by using a series of adders" do
     expression = described_class.new(
       Sentient::Expression::Integer::Literal.new(0),
       Sentient::Expression::Integer::Literal.new(0)
@@ -86,5 +89,125 @@ RSpec.describe Sentient::Expression::Integer::Add do
       ["-16", "17"]
     ]
     expect(expression.integer).to eq ["7", "13", "17"]
+  end
+
+  it "adds positive integers correctly" do
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(7),
+          Sentient::Expression::Integer::Literal.new(31)
+        ),
+        answer = Sentient::Expression::Integer.new(8)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [false, true, true, false, false, true, false, false]
+                       #        0     1     1      0     0      1     0       0 = 38
+
+
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(1234),
+          Sentient::Expression::Integer::Literal.new(456789)
+        ),
+        answer = Sentient::Expression::Integer.new(20)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [
+      true, true, true, false, false, true, false, false, # 39
+      true, false, true, true, true, true, true, true,    # 64768
+      false, true, true, false                            # 393216
+
+                                                          # = 458023
+    ]
+  end
+
+  it "adds negative integers correctly" do
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(-7),
+          Sentient::Expression::Integer::Literal.new(-31)
+        ),
+        answer = Sentient::Expression::Integer.new(8)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [false, true, false, true, true, false, true, true]
+
+
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(-1234),
+          Sentient::Expression::Integer::Literal.new(-456789)
+        ),
+        answer = Sentient::Expression::Integer.new(20)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [
+      true, false, false, true, true, false, true, true,
+      false, true, false, false, false, false, false, false,
+      true, false, false, true
+    ] # = -458023
+  end
+
+  it "adds positive and negative integers correctly" do
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(7),
+          Sentient::Expression::Integer::Literal.new(-31)
+        ),
+        answer = Sentient::Expression::Integer.new(8)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [
+      false, false, false, true, false, true, true, true
+    ]
+
+
+    program = Sentient::Expression::Program.new(
+      Sentient::Expression::Integer::Equal.new(
+        described_class.new(
+          Sentient::Expression::Integer::Literal.new(-7),
+          Sentient::Expression::Integer::Literal.new(31)
+        ),
+        answer = Sentient::Expression::Integer.new(8)
+      )
+    )
+
+    result = machine.run(program)
+    expect(result).to be_satisfiable
+    booleans = answer.booleans.map { |x| result.fetch(x) }
+
+    expect(booleans).to eq [
+      false, false, false, true, true, false, false, false
+    ]
   end
 end
