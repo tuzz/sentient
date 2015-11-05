@@ -42,4 +42,12 @@ RSpec.describe Sentient::Expression::Integer do
     result = Sentient::Solver::Result.new([1, -2, 3])
     expect(subject.to_ruby(result)).to eq(-3)
   end
+
+  it "can turn a larger integer back into ruby" do
+    result = Sentient::Solver::Result.new([
+      -1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+    ])
+    integer = described_class.new(10)
+    expect(integer.to_ruby(result)).to eq(-2)
+  end
 end

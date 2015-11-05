@@ -34,7 +34,7 @@ module Sentient
         number = binary.to_i(2)
 
         if negative
-          max = array.count ** 2
+          max = 2 ** array.count
           number - max
         else
           number
